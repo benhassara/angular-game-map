@@ -6,6 +6,6 @@ angular.module('gameApp', ["ui.router"])
     $stateProvider
       .state('/', {
         url: '/',
-        templateUrl: '../../views/home.html'
+        templateUrl: './login/home.html'
       });
   });
