@@ -21,5 +21,9 @@ angular.module("gameApp")
     return $http.get('/games/' + id);
   };
 
+  obj.getGameImages = function(appId, hash) {
+    return $http.get("http://media.steampowered.com/steamcommunity/public/images/apps/" + appId + "/" + hash + ".jpg");
+  };
+
   return obj;
 }]);

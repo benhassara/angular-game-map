@@ -1,3 +1,7 @@
 <div ng-controller="DashboardController">
   <h1>{{ user.username }}</h1>
+    <div class="">
+
+    <img ng-repeat="game in games" ng-src="http://media.steampowered.com/steamcommunity/public/images/apps/{{game.appid}}/{{game.img_logo_url}}.jpg">
+    </div>
 </div>

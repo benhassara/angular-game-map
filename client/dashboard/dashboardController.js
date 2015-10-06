@@ -2,7 +2,6 @@ angular.module("gameApp")
 .controller("DashboardController", ["$scope", "$http", "$stateParams", "mongoFactory", "steamFactory",
 function($scope, $http, $stateParams, mongoFactory, steamFactory) {
   var steamid = $stateParams.id;
-  console.log(steamid);
 
   mongoFactory.getUser(steamid)
   .then(function(data) {
@@ -11,6 +10,7 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
 
   steamFactory.getGames(steamid)
   .then(function(data) {
-    console.log(data);
+    $scope.games = data.data.games;
+    console.log(data.data);
   });
 }]);
