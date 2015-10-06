@@ -21,10 +21,17 @@ router.get('/verify', steam.verify(), function(req, res) {
     .done();
 });
 
-
-
 router.get('/logout', steam.enforceLogin('/'), function(req, res) {
   req.logout();
   res.redirect('/');
 });
+
+router.get('/user/:id', function(req, res, next) {
+  var query = User.where({steamid: req.params.id});
+  query.findOneQ()
+    .then(function(result) {res.json(result);})
+    .catch(function(err) {res.send(err);})
+    .done();
+});
+
 module.exports = router;
