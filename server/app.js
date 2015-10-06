@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('express-session');
 var mongoose = require('mongoose');
+var apiKey = require("./auth/_openidconfig.js");
+var steam = require("steam-login");
 
 
 
@@ -33,11 +35,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client/')));
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: 'true'
-}));
+app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }));
+app.use(steam.middleware({
+    realm: 'http://localhost:3000/',
+    verify: 'http://localhost:3000/verify',
+    apiKey: apiKey}
+));
 app.use(passport.initialize());
 app.use(passport.session());
 
