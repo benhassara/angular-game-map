@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var steam = require('steam-login');
 var User = require('../models/user');
+var key = require('../auth/_openidconfig.js');
+var http = require('http');
+var request = require('request');
 var mongoose = require('mongoose-q')(require('mongoose'), {spread:true});
 
 router.get('/', function(req, res) {
@@ -16,9 +19,9 @@ router.get('/auth/steam', steam.authenticate(), function(req, res) {
 router.get('/verify', steam.verify(), function(req, res) {
   var query = {'steamid': req.user.steamid};
   User.findOneAndUpdateQ(query, req.user, {upsert:true})
-    .then(function (result) {res.redirect("/#/dashboard/" + req.user.steamid);})
-    .catch(function (err) {res.send(err);})
-    .done();
+  .then(function (result) {res.redirect("/#/dashboard/" + req.user.steamid);})
+  .catch(function (err) {res.send(err);})
+  .done();
 });
 
 router.get('/logout', steam.enforceLogin('/'), function(req, res) {
@@ -26,12 +29,24 @@ router.get('/logout', steam.enforceLogin('/'), function(req, res) {
   res.redirect('/');
 });
 
+//get single user from db
 router.get('/user/:id', function(req, res, next) {
   var query = User.where({steamid: req.params.id});
   query.findOneQ()
-    .then(function(result) {res.json(result);})
-    .catch(function(err) {res.send(err);})
-    .done();
+  .then(function(result) {res.json(result);})
+  .catch(function(err) {res.send(err);})
+  .done();
+});
+
+//get games for steam user
+router.get('/games/:id', function(req, res, next) {
+  var id = req.params.id;
+  var url = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + key + '&steamid=' + id + '&include_appinfo=1';
+  request(url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      res.json(JSON.parse(body).response);
+    }
+  });
 });
 
 module.exports = router;

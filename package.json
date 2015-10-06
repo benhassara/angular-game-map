@@ -17,6 +17,7 @@
     "morgan": "~1.6.1",
     "passport": "^0.3.0",
     "passport-steam": "^0.1.6",
+    "request": "^2.64.0",
     "serve-favicon": "~2.3.0",
     "steam-login": "^0.1.3"
   },
