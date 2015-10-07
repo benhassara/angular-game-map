@@ -10,6 +10,7 @@ angular.module('gameApp', ["ui.router"])
       })
       .state('dashboard', {
         url: '/dashboard/:id',
-        templateUrl: './dashboard/dashboard.html'
+        templateUrl: './dashboard/dashboard.html',
+        controller: 'DashboardController'
       });
   });

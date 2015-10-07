@@ -22,7 +22,8 @@ angular.module("gameApp")
   };
 
   obj.getGameImages = function(appId, hash) {
-    return $http.get("http://media.steampowered.com/steamcommunity/public/images/apps/" + appId + "/" + hash + ".jpg");
+    // return $http.get("http://media.steampowered.com/steamcommunity/public/images/apps/" + appId + "/" + hash + ".jpg");
+    return $http.get("https://steamcdn-a.akamaihd.net/steam/apps/" + appId + "/header.jpg");
   };
 
   return obj;

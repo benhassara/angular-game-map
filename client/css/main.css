@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+.container {
+  width: 50%;
+}
+.game-tile {
+  display: block;
+  min-width: 100%;
+}

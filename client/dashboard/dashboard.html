@@ -1,7 +1,16 @@
-<div ng-controller="DashboardController">
-  <h1>{{ user.username }}</h1>
-    <div class="">
+<h1>{{ user.username }}</h1>
+<!--
+<div class="container">
 
-    <img ng-repeat="game in games" ng-src="http://media.steampowered.com/steamcommunity/public/images/apps/{{game.appid}}/{{game.img_logo_url}}.jpg">
-    </div>
+<div class="row">
+<div ng-repeat="game in games" class="col-sm-6 col-md-4">
+<img check-image class="img-responsive game-tile" class="game-tile" ng-src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.appid}}/header.jpg"
+err-SRC="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/{{game.appid}}/{{game.img_logo_url}}.jpg">
+</div>
+</div>
+</div> -->
+
+<div class="container thumbnail" ng-repeat="game in games">
+  <img check-image class="img-responsive game-tile" class="game-tile" ng-src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.appid}}/header.jpg"
+  err-SRC="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/{{game.appid}}/{{game.img_logo_url}}.jpg">
 </div>
