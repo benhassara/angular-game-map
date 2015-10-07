@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var steam = require('steam-login');
 var User = require('../models/user');
-var key = require('../auth/_openidconfig.js');
+var keys = require('../auth/_openidconfig.js');
 var http = require('http');
 var request = require('request');
 var mongoose = require('mongoose-q')(require('mongoose'), {spread:true});
@@ -41,7 +41,8 @@ router.get('/user/:id', function(req, res, next) {
 //get games for steam user
 router.get('/games/:id', function(req, res, next) {
   var id = req.params.id;
-  var url = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + key + '&steamid=' + id + '&include_appinfo=1';
+  console.log(keys.STEAM);
+  var url = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + keys.STEAM + '&steamid=' + id + '&include_appinfo=1';
   request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       res.json(JSON.parse(body).response);

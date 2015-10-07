@@ -39,7 +39,7 @@ app.use(require('express-session')({ resave: false, saveUninitialized: false, se
 app.use(steam.middleware({
     realm: 'http://localhost:3000/',
     verify: 'http://localhost:3000/verify',
-    apiKey: apiKey}
+    apiKey: apiKey.STEAM}
 ));
 app.use(passport.initialize());
 app.use(passport.session());
