@@ -1,15 +1,20 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url(http://cabinetsbybuz.com/wp-content/uploads/2014/09/website-background.jpg);
+  background-size: cover;
 }
 
 a {
   color: #00B7FF;
 }
 
+h1 {
+  color: white;
+}
+
 #library {
-	margin: 0;
-  width: 100%;
+	margin: 0 auto;
 }
 
 #library .library-item {
@@ -17,8 +22,8 @@ a {
 	float: left;
 	width: 400px;
 	height: 200px;
-	-webkit-perspective: 600px;
-	margin: 10px;
+	-webkit-perspective: 1000px;
+	margin: 15px;
 }
 
 #library .library-item .primary,
@@ -62,16 +67,16 @@ a {
 }
 
 .secondary {
-  -webkit-transform: rotateY(-180deg);
-          transform: rotateY(-180deg);
+  -webkit-transform: rotateX(-180deg);
+          transform: rotateX(-180deg);
 }
 
 .library-item:hover .primary{
-  -webkit-transform: rotateY(-180deg);
-  transfrom: rotateY(-180deg);
+  -webkit-transform: rotateX(-180deg);
+  transfrom: rotateX(-180deg);
 }
 
 .library-item:hover .secondary{
-  -webkit-transform: rotateY(0);
-  transform: rotateY(0);
+  -webkit-transform: rotateX(0);
+  transform: rotateX(0);
 }

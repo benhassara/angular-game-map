@@ -6,7 +6,7 @@ angular.module('gameApp', ["ui.router"])
     $stateProvider
       .state('/', {
         url: '/',
-        templateUrl: './login/home.html'
+        templateUrl: './views/home.html'
       })
       .state('dashboard', {
         url: '/dashboard/:id',

@@ -1,0 +1,18 @@
+<div ng-repeat="game in games">
+  <div id="library">
+    <div class="library-item">
+      <div class="primary">
+        <img check-image  class="game-tile" ng-src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.appid}}/header.jpg"
+        err-SRC="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/{{game.appid}}/{{game.img_logo_url}}.jpg">
+      </div>
+      <div class="secondary">
+        <h2>{{ game.name }}</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Aliquam dapibus porttitor porta. Donec blandit, diam id ultrices gravida,
+          velit eros blandit leo, volutpat sollicitudin justo lorem eu dui.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
