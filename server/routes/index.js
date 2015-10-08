@@ -3,7 +3,6 @@ var router = express.Router();
 var steam = require('steam-login');
 var User = require('../models/user');
 var keys = require('../auth/_openidconfig.js');
-var http = require('http');
 var request = require('request');
 var mongoose = require('mongoose-q')(require('mongoose'), {spread:true});
 var async = require('async');
@@ -43,7 +42,6 @@ router.get('/user/:id', function(req, res, next) {
 //get games for steam user
 router.get('/games/:id', function(req, res, next) {
   var id = req.params.id;
-
   var gbFields = 'api_detail_url,concepts,deck,developers,id,name,publishers,original_release_date';
   var steamUrl = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + keys.STEAM + '&steamid=' + id + '&include_appinfo=1';
 
@@ -61,7 +59,8 @@ router.get('/games/:id', function(req, res, next) {
       });
     },
     function(err, gbs) {
-      res.json({'steam': steam, 'gb': gbs});
+      var gbRes = gbs.map(function(gb) {return gb.results[0];});
+      res.json({'steam': steam, 'gb': gbRes});
     });
   });
 });
