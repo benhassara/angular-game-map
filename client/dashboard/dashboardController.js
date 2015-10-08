@@ -11,6 +11,6 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
   steamFactory.getGames(steamid)
   .then(function(data) {
     $scope.games = data.data.steam;
-    $scope.bomb = data.data.bomb;
+    $scope.gb = data.data.gb;
   });
 }]);
