@@ -59,7 +59,8 @@ router.get('/games/:id', function(req, res, next) {
       });
     },
     function(err, gbs) {
-      res.json({'steam': steam, 'gb': gbs});
+      var gbRes = gbs.map(function(gb) {return gb.results[0];});
+      res.json({'steam': steam, 'gb': gbRes});
     });
   });
 });
