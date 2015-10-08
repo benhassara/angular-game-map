@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var steam = require('steam-login');
 var User = require('../models/user');
-var key = require('../auth/_openidconfig.js');
+var keys = require('../auth/_openidconfig.js');
 var request = require('request');
 var mongoose = require('mongoose-q')(require('mongoose'), {spread:true});
 var async = require('async');
@@ -43,7 +43,7 @@ router.get('/user/:id', function(req, res, next) {
 router.get('/games/:id', function(req, res, next) {
   var id = req.params.id;
   var gbFields = 'api_detail_url,concepts,deck,developers,id,name,publishers,original_release_date';
-  var steamUrl = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + key.STEAM + '&steamid=' + id + '&include_appinfo=1';
+  var steamUrl = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + keys.STEAM + '&steamid=' + id + '&include_appinfo=1';
 
   // outer request, to Steam Web API
   request(steamUrl, function(error, response, body) {
@@ -52,15 +52,14 @@ router.get('/games/:id', function(req, res, next) {
 
     async.concat(names, function(name, callback) {
       var query = name;
-      var gbUrl = 'http://www.giantbomb.com/api/search/?api_key=' + key.GIANT_BOMB + '&resources=game&format=json&query=' + query + '&field_list=' + gbFields;
+      var gbUrl = 'http://www.giantbomb.com/api/search/?api_key=' + keys.GIANT_BOMB + '&resources=game&format=json&query=' + query + '&field_list=' + gbFields;
       request(gbUrl, function(err, res, bdy) {
         var gb = JSON.parse(bdy);
         callback(null, gb);
       });
     },
     function(err, gbs) {
-      var gbRes = gbs.map(function(obj) {return obj.results[0];});
-      res.json({'steam': steam, 'gb': gbRes});
+      res.json({'steam': steam, 'gb': gbs});
     });
   });
 });

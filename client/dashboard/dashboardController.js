@@ -10,7 +10,7 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
 
   steamFactory.getGames(steamid)
   .then(function(data) {
-    // $scope.games = data.data.games;
-    console.log(data);
+    $scope.games = data.data.steam;
+    $scope.bomb = data.data.bomb;
   });
 }]);
