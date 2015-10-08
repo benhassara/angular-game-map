@@ -5,7 +5,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var passport = require('passport');
 var session = require('express-session');
 var mongoose = require('mongoose');
 var apiKey = require("./auth/_openidconfig.js");
@@ -41,8 +40,6 @@ app.use(steam.middleware({
     verify: 'http://localhost:3000/verify',
     apiKey: apiKey.STEAM}
 ));
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 // *** main routes *** //
