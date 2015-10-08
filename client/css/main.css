@@ -7,10 +7,71 @@ a {
   color: #00B7FF;
 }
 
-.container {
-  width: 50%;
+#library {
+	margin: 0;
+  width: 100%;
 }
-.game-tile {
-  display: block;
-  min-width: 100%;
+
+#library .library-item {
+	display: block;
+	float: left;
+	width: 400px;
+	height: 200px;
+	-webkit-perspective: 600px;
+	margin: 10px;
+}
+
+#library .library-item .primary,
+#library .library-item .secondary {
+	display: block;
+	width: 400px;
+	height: 200px;
+	background: #CCC;
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+#library .library-item .secondary {
+	padding: 20px;
+	width: 400px;
+	height: 200px;
+}
+
+#library .library-item .secondary h2 {
+	margin-top: 0px;
+}
+
+.game-tile{
+  width: 100%;
+  height: 100%;
+}
+
+.primary {
+  position: absolute;
+  z-index: 1;
+}
+
+.primary,
+.secondary{
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: -webkit-transform 1s;
+  transition: transform 1s;
+}
+
+.secondary {
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+}
+
+.library-item:hover .primary{
+  -webkit-transform: rotateY(-180deg);
+  transfrom: rotateY(-180deg);
+}
+
+.library-item:hover .secondary{
+  -webkit-transform: rotateY(0);
+  transform: rotateY(0);
 }
