@@ -1,4 +1,4 @@
-<div ng-repeat="game in games">
+<div ng-repeat="game in games.steam">
   <div id="library">
     <div class="library-item">
       <div class="primary">
@@ -7,11 +7,7 @@
       </div>
       <div class="secondary">
         <h2>{{ game.name }}</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Aliquam dapibus porttitor porta. Donec blandit, diam id ultrices gravida,
-          velit eros blandit leo, volutpat sollicitudin justo lorem eu dui.
-        </p>
+        <p>{{ gbArray[$index].deck }} </p>
       </div>
     </div>
   </div>
