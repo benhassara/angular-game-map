@@ -21,5 +21,6 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
       var steamIndex = steamGameNames.indexOf(query[0][1]);
       $scope.gbArray[steamIndex] = $scope.games.gb[i];
     }
+    console.log($scope.games);
   });
 }]);
