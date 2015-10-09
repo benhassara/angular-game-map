@@ -26,5 +26,9 @@ angular.module("gameApp")
     return $http.get("https://steamcdn-a.akamaihd.net/steam/apps/" + appId + "/header.jpg");
   };
 
+  obj.getGameAchievements = function(appId, steamId) {
+    return $http.get("/game/" + appId + "/" + steamId + "/achievements");
+  };
+
   return obj;
 }]);
