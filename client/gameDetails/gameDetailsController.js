@@ -9,7 +9,6 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
   mongoFactory.getUser(steamId)
   .then(function(data) {
     $scope.user = data.data;
-    console.log(data.data);
   });
 
   steamFactory.getGameAchievements(appId, steamId)
