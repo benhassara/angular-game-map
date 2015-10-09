@@ -1,7 +1,13 @@
 angular.module("gameApp")
-.controller("DashboardController", ["$scope", "$http", "$stateParams", "mongoFactory", "steamFactory",
+.controller("DashboardController",
+["$scope", "$http", "$stateParams", "mongoFactory", "steamFactory",
 function($scope, $http, $stateParams, mongoFactory, steamFactory) {
   var steamid = $stateParams.id;
+  $scope.isCollapsed = false;
+
+  // $scope.newPage = function() {
+  //   stae.go
+  // }
 
   mongoFactory.getUser(steamid)
   .then(function(data) {

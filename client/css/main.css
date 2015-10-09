@@ -80,3 +80,14 @@ h1, h3 {
   -webkit-transform: rotateX(0);
   transform: rotateX(0);
 }
+
+.game-details {
+    max-height: 100px;
+    transition: 1s;
+    color: white;
+    overflow: hidden;
+}
+
+.game-details.hidden {
+    max-height: 0;
+}

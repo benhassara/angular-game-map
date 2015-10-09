@@ -3,15 +3,15 @@
 
 <div ng-repeat="game in games.steam | filter:search">
   <div id="library">
-    <div class="library-item">
-      <div class="primary">
-        <img check-image  class="game-tile" ng-src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.appid}}/header.jpg"
-        err-SRC="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/{{game.appid}}/{{game.img_logo_url}}.jpg">
-      </div>
-      <div class="secondary">
-        <h2>{{ game.name }}</h2>
-        <p>{{ gbArray[$index].deck }} </p>
-      </div>
+      <div class="library-item" ui-sref="">
+        <div class="primary">
+          <img check-image  class="game-tile" ng-src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.appid}}/header.jpg"
+          err-SRC="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/{{game.appid}}/{{game.img_logo_url}}.jpg">
+        </div>
+        <div class="secondary">
+          <h2><a href="/#/dashboard/{{user.steamid}}/game/{{game.appid}}">{{ game.name }}</a></h2>
+          <p>{{ gbArray[$index].deck }} </p>
+        </div>
     </div>
   </div>
 </div>
