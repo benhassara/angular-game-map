@@ -65,4 +65,15 @@ router.get('/games/:id', function(req, res, next) {
   });
 });
 
+// get achievements for a game from Steam
+router.get('/game/:appid/:steamid/achievements', function(req, res, next) {
+  var appid = req.params.appid;
+  var steamid = req.params.steamid;
+  var url = 'http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=' + appid + '&key=' + keys.STEAM + '&steamid=' + steamid;
+
+  request(url, function(error, response, body) {
+    res.json(JSON.parse(body));
+  });
+});
+
 module.exports = router;
