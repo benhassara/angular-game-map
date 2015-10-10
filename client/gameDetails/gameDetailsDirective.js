@@ -1,7 +1,15 @@
 angular.module("gameApp")
-.directive("gameProfile", function() {
+.directive("pieChart", function() {
   return {
     restrict: "E",
-    templateUrl: "/"
-  }
-})
+    templateUrl: "../gameDetails/pieChart.html"
+  };
+});
+
+angular.module("gameApp")
+.directive("achievementList", function() {
+  return {
+    restrict: "E",
+    templateUrl: "../gameDetails/achievementList.html"
+  };
+});

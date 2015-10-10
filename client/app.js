@@ -1,4 +1,4 @@
-angular.module('gameApp', ["ui.router", 'ngAnimate', 'ui.bootstrap'])
+angular.module('gameApp', ["ui.router", 'ngAnimate', 'ui.bootstrap', 'nvd3ChartDirectives'])
 
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
