@@ -7,6 +7,7 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
   var completed = [];
   var open = [];
   var colorArray = ['green', 'blue'];
+  $scope.showAchievements = false;
 
 
   $scope.xFunction = function(){
@@ -32,9 +33,11 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
     $scope.user = data.data;
   });
 
-  steamFactory.getGameAchievements(appId, steamId)
+  steamFactory.getGame(appId, steamId)
   .then(function(data) {
-    var achievements = data.data;
+    $scope.game = data.data;
+    var achievements = data.data.achievements;
+    console.log(data.data);
     for (var i = 0; i < achievements.length; i++) {
       if (achievements[i].achieved === 1) {
         completed.push(achievements[i]);
@@ -51,10 +54,13 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
 
   //handles click events on the pie chart created
   $scope.$on('elementClick.directive', function(angularEvent, event){
-    if (event.label === "completed") {
+    $scope.showAchievements = true;
+    if (event.label === "Completed") {
       $scope.achievements = completed;
+      $scope.$apply();
     } else {
       $scope.achievements = open;
+      $scope.$apply();
     }
   });
 

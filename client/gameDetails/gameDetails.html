@@ -1,8 +1,9 @@
 <user-header></user-header>
 
 <!-- <h4>{{ game.name }}</h4> -->
+<h1 class="text-center">{{ game.gameName }}</h1>
 <h3 class="text-center">Achievements Summary</h3>
 
 <pie-chart></pie-chart>
 
-<achievement-list></achievement-list>
+<achievement-list ng-show="showAchievements"></achievement-list>

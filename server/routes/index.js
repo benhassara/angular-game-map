@@ -69,10 +69,10 @@ router.get('/games/:id', function(req, res, next) {
 router.get('/game/:appid/:steamid/achievements', function(req, res, next) {
   var appid = req.params.appid;
   var steamid = req.params.steamid;
-  var url = 'http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=' + appid + '&key=' + keys.STEAM + '&steamid=' + steamid;
+  var url = 'http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=' + appid + '&key=' + keys.STEAM + '&steamid=' + steamid + '&l=en';
 
   request(url, function(error, response, body) {
-    res.json(JSON.parse(body).playerstats.achievements);
+    res.json(JSON.parse(body).playerstats);
   });
 });
 

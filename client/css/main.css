@@ -2,7 +2,6 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-image: url(http://cabinetsbybuz.com/wp-content/uploads/2014/09/website-background.jpg);
-  background-size: cover;
 }
 
 a {
@@ -11,6 +10,15 @@ a {
 
 h1, h3 {
   color: white;
+}
+
+dl {
+  color: white;
+  font-size: 20px;
+}
+
+.dl-horizontal dt {
+    white-space: normal;
 }
 
 #library {

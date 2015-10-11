@@ -1,3 +1,9 @@
-<ul>
-  <li ng-repeat="achievement in achievements">{{ achievement }}</li>
-</ul>
+<div class="center-block">
+  <dl class="dl-horizontal">
+    <div ng-repeat="achievement in achievements">
+      <dt>{{ achievement.name }}</dt>
+      <dd>{{ achievement.description }}</dd>
+      <br>
+    </div>
+  </dl>
+</div>
