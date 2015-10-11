@@ -8,6 +8,11 @@ angular.module("gameApp")
     return $http.get('/user/' + id);
   };
 
+  /** Save games to database */
+  obj.saveGames = function(games) {
+    return $http.post('/games');
+  };
+
   return obj;
 }]);
 

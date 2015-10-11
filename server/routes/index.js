@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var steam = require('steam-login');
 var User = require('../models/user');
+var Game = require('../models/game');
 var keys = require('../auth/_openidconfig.js');
 var request = require('request');
 var mongoose = require('mongoose-q')(require('mongoose'), {spread:true});
@@ -74,6 +75,32 @@ router.get('/game/:appid/:steamid/achievements', function(req, res, next) {
   request(url, function(error, response, body) {
     res.json(JSON.parse(body).playerstats);
   });
+});
+
+router.post('/games', function (req, res, next) {
+  console.log(req.body);
+  var games = req.body.games;
+  var count = 0;
+  var saved = [];
+
+  async.forEachOf(games, function(game, index, callback) {
+    var query = game.steam.appid;
+    new Game(game).saveQ()
+      .then(function() {
+        saved.push(game.steam.name);
+        if (index === games.length -1) {
+          res.json({'numSaved': saved.length, 'saved': saved});
+        }
+      })
+      .catch(function(err) {
+        console.log('Item already in database.');
+        if (index === games.length -1) {
+          res.json({'numSaved': saved.length, 'saved': saved});
+        }
+      })
+      .done();
+    });
+
 });
 
 module.exports = router;

@@ -20,3 +20,5 @@ var Game = new Schema({
     }]
   }
 });
+
+module.exports = mongoose.model('games', Game);
