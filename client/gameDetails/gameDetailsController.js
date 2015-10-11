@@ -14,5 +14,11 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
   steamFactory.getGameAchievements(appId, steamId)
   .then(function(data) {
     console.log(data);
+    if (!data.success) {
+      $scope.heading = data.error;
+    }
+    else {
+      $scope.heading = data.gameName + ': Achievements';
+    }
   });
 }]);

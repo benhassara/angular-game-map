@@ -72,7 +72,7 @@ router.get('/game/:appid/:steamid/achievements', function(req, res, next) {
   var url = 'http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=' + appid + '&key=' + keys.STEAM + '&steamid=' + steamid;
 
   request(url, function(error, response, body) {
-    res.json(JSON.parse(body).playerstats.achievements);
+    res.json(JSON.parse(body).playerstats);
   });
 });
 
