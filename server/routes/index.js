@@ -100,23 +100,6 @@ router.post('/games', function (req, res, next) {
       })
       .done();
     });
-  // async.each(games, function(game) {
-  //   var query = game.steam.appid;
-  //   Game.saveQ(query, game, {upsert: true})
-  //     .then(function(result) {
-  //       console.log(result);
-  //       saved.push(game.steam.name);
-  //       if (++count === games.length) {
-  //         res.json({numSaved: saved.length, saved: saved});
-  //       }
-  //     })
-  //     .catch(function(err) {
-  //       console.log(err);
-  //     })
-  //     .done();
-  //   count++;
-  //   console.log(count);
-  // });
 
 });
 

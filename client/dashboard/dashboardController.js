@@ -33,4 +33,15 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
       $scope.user.games = $scope.games;
     }
   });
+
+  $scope.saveGames = function() {
+    var games = [];
+    for (var i = 0; i < $scope.games.steam.length; i++) {
+      games[i] = {
+        steam: $scope.games.steam[i],
+        gb: $scope.games.gb[i]
+      };
+    }
+    mongoFactory.saveGames(games);
+  };
 }]);
