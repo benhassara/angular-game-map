@@ -28,10 +28,6 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
       gbArray[steamIndex] = $scope.games.gb[i];
     }
     $scope.games.gb = gbArray;
-    console.log($scope.games);
-    if ($scope.games.steam.length !== $scope.user.games.length) {
-      $scope.user.games = $scope.games;
-    }
   });
 
   $scope.saveGames = function() {
