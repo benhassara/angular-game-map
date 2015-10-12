@@ -77,7 +77,7 @@ router.get('/game/:appid/:steamid/achievements', function(req, res, next) {
   });
 });
 
-router.post('/games', function (req, res) {
+router.post('/games', function (req, res, next) {
   console.log(req.body);
   var games = req.body.games;
   var count = 0;
@@ -85,16 +85,21 @@ router.post('/games', function (req, res) {
 
   async.forEachOf(games, function(game, index, callback) {
     var query = game.steam.appid;
-    new Game(game).saveQ(function(err) {
-      if (err) {console.log(err);}
-      else {
+    new Game(game).saveQ()
+      .then(function() {
         saved.push(game.steam.name);
-        if (index === games.length - 1) {
+        if (index === games.length -1) {
           res.json({'numSaved': saved.length, 'saved': saved});
         }
-      }
+      })
+      .catch(function(err) {
+        console.log('Item already in database.');
+        if (index === games.length -1) {
+          res.json({'numSaved': saved.length, 'saved': saved});
+        }
+      })
+      .done();
     });
-  }, function(err) {});
   // async.each(games, function(game) {
   //   var query = game.steam.appid;
   //   Game.saveQ(query, game, {upsert: true})
