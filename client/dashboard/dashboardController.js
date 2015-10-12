@@ -21,13 +21,13 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
     var steamGameNames = $scope.games.steam.map(function(game) {return game.name;});
     steamGameNames.forEach(function(name) {steam.add(name);});
 
-    var gbArray = [];
+    $scope.gbArray = [];
     for (var i = 0; i < $scope.games.gb.length; i++) {
       var query = steam.get($scope.games.gb[i].name);
       var steamIndex = steamGameNames.indexOf(query[0][1]);
-      gbArray[steamIndex] = $scope.games.gb[i];
+      $scope.gbArray[steamIndex] = $scope.games.gb[i];
     }
-    $scope.games.gb = gbArray;
+    $scope.games.gb = $scope.gbArray;
   });
 
   $scope.saveGames = function() {
