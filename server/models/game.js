@@ -10,7 +10,7 @@ var Game = new Schema({
     original_release_date: String
   },
   steam: {
-    appid: String,
+    appid: {type: String, unique: true},
     img_logo_url: String,
     name: String,
     playtime: Number,
@@ -20,3 +20,5 @@ var Game = new Schema({
     }]
   }
 });
+
+module.exports = mongoose.model('games', Game);

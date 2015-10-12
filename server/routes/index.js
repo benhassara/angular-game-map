@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var steam = require('steam-login');
 var User = require('../models/user');
+var Game = require('../models/game');
 var keys = require('../auth/_openidconfig.js');
 var request = require('request');
 var mongoose = require('mongoose-q')(require('mongoose'), {spread:true});
@@ -74,6 +75,44 @@ router.get('/game/:appid/:steamid/achievements', function(req, res, next) {
   request(url, function(error, response, body) {
     res.json(JSON.parse(body).playerstats);
   });
+});
+
+router.post('/games', function (req, res) {
+  console.log(req.body);
+  var games = req.body.games;
+  var count = 0;
+  var saved = [];
+
+  async.forEachOf(games, function(game, index, callback) {
+    var query = game.steam.appid;
+    new Game(game).saveQ(function(err) {
+      if (err) {console.log(err);}
+      else {
+        saved.push(game.steam.name);
+        if (index === games.length - 1) {
+          res.json({'numSaved': saved.length, 'saved': saved});
+        }
+      }
+    });
+  }, function(err) {});
+  // async.each(games, function(game) {
+  //   var query = game.steam.appid;
+  //   Game.saveQ(query, game, {upsert: true})
+  //     .then(function(result) {
+  //       console.log(result);
+  //       saved.push(game.steam.name);
+  //       if (++count === games.length) {
+  //         res.json({numSaved: saved.length, saved: saved});
+  //       }
+  //     })
+  //     .catch(function(err) {
+  //       console.log(err);
+  //     })
+  //     .done();
+  //   count++;
+  //   console.log(count);
+  // });
+
 });
 
 module.exports = router;

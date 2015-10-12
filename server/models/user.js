@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var User = new Schema({
   username: String,
-  steamid: String,
+  steamid: {type: String, unique:true},
   profile: String,
   avatar: {
     small: String,

@@ -8,6 +8,11 @@ angular.module("gameApp")
     return $http.get('/user/' + id);
   };
 
+  /** Save games to database */
+  obj.saveGames = function(games) {
+    return $http.post('/games');
+  };
+
   return obj;
 }]);
 
@@ -23,7 +28,7 @@ angular.module("gameApp")
 
   obj.getGame = function(id) {
     return $http.get('game/' + id);
-  }
+  };
 
   obj.getGameImages = function(appId, hash) {
     // return $http.get("http://media.steampowered.com/steamcommunity/public/images/apps/" + appId + "/" + hash + ".jpg");
