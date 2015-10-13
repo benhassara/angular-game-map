@@ -3,5 +3,10 @@
 <!-- header for user -->
 <user-header></user-header>
 
+<!-- loading spinner gif -->
+<div class="text-center">
+  <img ng-show="loading" src="//www.voleysur.org/v2/imagens/aguarde.gif" alt="loading" />
+</div>
+
 <!-- display for games in game library -->
-<game-container class="center-block"></game-container>
+<game-container ng-hide="loading" class="center-block"></game-container>
