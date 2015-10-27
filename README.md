@@ -15,5 +15,3 @@ Create an app where the user will login with their own steam account with the St
 1. Gulp
 1. ui-routes
 1. FuzzySet
-
-## Live Demo
