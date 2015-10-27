@@ -1,11 +1,7 @@
 # Angular Project Proposal
 
 ## Purpose
-Create an app where the user will login with their own steam account.  Once logged in, the user will be able to view all the information from their steam account.  We want to organize the information from their account more cleanly, and give the user additionally functionality like:
-1. Organizing their backlog
-1. Variety of game reviews
-1. More background information on specific games
-1. Game achievements
+Create an app where the user will login with their own steam account with the Steam API.  Once logged in, the user will be able to view all their games with additional information.  The user will also be able to view their completed and open achievements for each game.   
 
 
 ## Technologies
@@ -18,3 +14,6 @@ Create an app where the user will login with their own steam account.  Once logg
 1. Express
 1. Gulp
 1. ui-routes
+1. FuzzySet
+
+## Live Demo
