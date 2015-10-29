@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
-var apiKey = require("./auth/_openidconfig.js");
+var apiKey = {STEAM: process.env.STEAM};
 var steam = require("steam-login");
 
 
