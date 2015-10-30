@@ -25,7 +25,7 @@ router.get('/auth/steam', steam.authenticate(), function(req, res) {
 router.get('/verify', steam.verify(), function(req, res) {
   var query = {'steamid': req.user.steamid};
   User.findOneAndUpdateQ(query, req.user, {upsert:true})
-  .then(function (result) {res.redirect("/#/dashboard/" + req.user.steamid);})
+  .then(function (result) {res.redirect("/dashboard/" + req.user.steamid);})
   .catch(function (err) {res.send(err);})
   .done();
 });
