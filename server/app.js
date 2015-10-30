@@ -17,7 +17,7 @@ var routes = require('./routes/index.js');
 
 
 // *** mongoose *** //
-mongoose.connect('mongodb://localhost/angular-games');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/angular-games');
 
 
 // *** express instance *** //
