@@ -1,5 +1,8 @@
 # Angular Project Proposal
 
+## Update
+Currently this app is not working due to changes in the OpenId authentication.
+
 ## Purpose
 Create an app where the user will login with their own steam account with the Steam API.  Once logged in, the user will be able to view all their games with additional information.  The user will also be able to view their completed and open achievements for each game.   
 
