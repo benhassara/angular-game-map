@@ -4,6 +4,8 @@ angular.module("gameApp")
 function($scope, $http, $stateParams, mongoFactory, steamFactory) {
   var steamid = $stateParams.id;
   $scope.isCollapsed = false;
+  $scope.loading = true;
+
 
   mongoFactory.getUser(steamid)
   .then(function(data) {
@@ -46,6 +48,7 @@ function($scope, $http, $stateParams, mongoFactory, steamFactory) {
       $scope.gbArray[steamIndex] = $scope.games.gb[i];
     }
     $scope.games.gb = $scope.gbArray;
+    $scope.loading = false;
   });
 
   $scope.saveGames = function() {

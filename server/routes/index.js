@@ -3,7 +3,11 @@ var router = express.Router();
 var steam = require('steam-login');
 var User = require('../models/user');
 var Game = require('../models/game');
-var keys = require('../auth/_openidconfig.js');
+// var keys = require('../auth/_openidconfig.js');
+var keys = {
+  STEAM: process.env.STEAM,
+  GIANT_BOMB: process.env.GIANT_BOMB
+};
 var request = require('request');
 var mongoose = require('mongoose-q')(require('mongoose'), {spread:true});
 var async = require('async');
@@ -21,7 +25,7 @@ router.get('/auth/steam', steam.authenticate(), function(req, res) {
 router.get('/verify', steam.verify(), function(req, res) {
   var query = {'steamid': req.user.steamid};
   User.findOneAndUpdateQ(query, req.user, {upsert:true})
-  .then(function (result) {res.redirect("/#/dashboard/" + req.user.steamid);})
+  .then(function (result) {res.redirect("/dashboard/" + req.user.steamid);})
   .catch(function (err) {res.send(err);})
   .done();
 });

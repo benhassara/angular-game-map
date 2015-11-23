@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
-var apiKey = require("./auth/_openidconfig.js");
+var apiKey = {STEAM: process.env.STEAM};
 var steam = require("steam-login");
 
 
@@ -17,7 +17,7 @@ var routes = require('./routes/index.js');
 
 
 // *** mongoose *** //
-mongoose.connect('mongodb://localhost/angular-games');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/angular-games');
 
 
 // *** express instance *** //
