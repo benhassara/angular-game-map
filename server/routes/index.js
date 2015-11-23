@@ -103,4 +103,27 @@ router.post('/games', function (req, res, next) {
 
 });
 
+/** Update a User's list of games */
+router.post('/user:steamid', function(req, res, next) {
+  var games = req.body.games;
+  var query = {steamid: req.params.steamid};
+
+  User.findOneAndUpdateQ(query, games, {upsert: true})
+  .then(function(result) {
+    res.json({message: 'User games updated successfully!'});
+  })
+  .catch(function(err) {res.json(err);})
+  .done();
+});
+
+router.get('/steamlist/:steamid', function(req, res, next) {
+    var steamUrl = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + keys.STEAM + '&steamid=' + id;
+
+    request(steamUrl, function(error, response, body) {
+      console.log(JSON.parse(body));
+      var games = JSON.parse(body).response.games;
+      res.json({gameList: games});
+    });
+});
+
 module.exports = router;
