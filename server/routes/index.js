@@ -82,9 +82,9 @@ router.get('/game/:appid/:steamid/achievements', function(req, res, next) {
   });
 });
 
+/* Iterate over an array of games, add to database if they aren't there */
 router.post('/games', function (req, res, next) {
-  console.log(req.body);
-  var games = req.body.games;
+  var games = mapGamesForMongo(req.body.games);
   var count = 0;
   var saved = [];
 
@@ -105,7 +105,6 @@ router.post('/games', function (req, res, next) {
       })
       .done();
     });
-
 });
 
 /** Update a User's list of games */
@@ -133,3 +132,21 @@ router.get('/steamlist/:steamid', function(req, res, next) {
 });
 
 module.exports = router;
+
+function mapGamesForMongo(gamesArray) {
+  return gamesArray.map(function(game) {
+    return {
+      gb: {
+        api_detail_url: game.gb.api_detail_url,
+        deck: game.gb.api_detail_url,
+        id: game.gb.id,
+        name: game.gb.name,
+        original_release_date: game.gb.original_release_date
+      },
+      steam: {
+        appid: game.steam.appid,
+        name: game.steam.name
+      }
+    };
+  });
+}
