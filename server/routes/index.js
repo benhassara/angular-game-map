@@ -25,7 +25,7 @@ router.get('/auth/steam', steam.authenticate(), function(req, res) {
 router.get('/verify', steam.verify(), function(req, res) {
   var query = {'steamid': req.user.steamid};
   User.findOneAndUpdateQ(query, req.user, {upsert:true})
-  .then(function (result) {res.redirect("/dashboard/" + req.user.steamid);})
+  .then(function (result) {res.redirect("/#/dashboard/" + req.user.steamid);})
   .catch(function (err) {res.send(err);})
   .done();
 });
@@ -105,6 +105,29 @@ router.post('/games', function (req, res, next) {
       .done();
     });
 
+});
+
+/** Update a User's list of games */
+router.post('/user:steamid', function(req, res, next) {
+  var games = req.body.games;
+  var query = {steamid: req.params.steamid};
+
+  User.findOneAndUpdateQ(query, games, {upsert: true})
+  .then(function(result) {
+    res.json({message: 'User games updated successfully!'});
+  })
+  .catch(function(err) {res.json(err);})
+  .done();
+});
+
+router.get('/steamlist/:steamid', function(req, res, next) {
+    var steamUrl = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + keys.STEAM + '&steamid=' + id;
+
+    request(steamUrl, function(error, response, body) {
+      console.log(JSON.parse(body));
+      var games = JSON.parse(body).response.games;
+      res.json({gameList: games});
+    });
 });
 
 module.exports = router;
