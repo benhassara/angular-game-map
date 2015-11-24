@@ -1,3 +1,8 @@
+/*
+ * Courtesy of:
+ * https://github.com/Glench/fuzzyset.js
+ */
+
 (function() {
 
 var FuzzySet = function(arr, useLevenshtein, gramSizeLower, gramSizeUpper) {
