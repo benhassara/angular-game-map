@@ -25,7 +25,7 @@ router.get('/auth/steam', steam.authenticate(), function(req, res) {
 router.get('/verify', steam.verify(), function(req, res) {
   var query = {'steamid': req.user.steamid};
   User.findOneAndUpdateQ(query, req.user, {upsert:true})
-  .then(function (result) {res.redirect("/dashboard/" + req.user.steamid);})
+  .then(function (result) {res.redirect("/#/dashboard/" + req.user.steamid);})
   .catch(function (err) {res.send(err);})
   .done();
 });
@@ -58,6 +58,7 @@ router.get('/games/:id', function(req, res, next) {
     async.concat(names, function(name, callback) {
       var query = name;
       var gbUrl = 'http://www.giantbomb.com/api/search/?api_key=' + keys.GIANT_BOMB + '&resources=game&format=json&query=' + query + '&field_list=' + gbFields;
+      // inner request to Giant Bomb API to fetch data on each game
       request(gbUrl, function(err, res, bdy) {
         var gb = JSON.parse(bdy);
         callback(null, gb);
@@ -120,6 +121,7 @@ router.post('/user:steamid', function(req, res, next) {
   .done();
 });
 
+/** Get a User's list of games from Steam */
 router.get('/steamlist/:steamid', function(req, res, next) {
     var steamUrl = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=' + keys.STEAM + '&steamid=' + id;
 

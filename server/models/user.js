@@ -9,7 +9,11 @@ var User = new Schema({
     small: String,
     medium: String,
     large: String
-  }
+  },
+  games: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Game'
+  }]
 });
 
 module.exports = mongoose.model('users', User);

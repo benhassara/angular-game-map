@@ -26,8 +26,8 @@ angular.module("gameApp")
     return $http.get('/games/' + id);
   };
 
-  obj.getSteamList = function(user) {
-    return $http.get('/steamlist/' + user.steamid);
+  obj.getSteamList = function(id) {
+    return $http.get('/steamlist/' + id);
   };
 
   obj.getGame = function(id) {
