@@ -21,7 +21,7 @@ angular.module("gameApp")
 
   var obj = {};
 
-  //function to get ALL users form mongodb
+  //function to get ALL users from mongodb
   obj.getGames = function(id) {
     return $http.get('/games/' + id);
   };

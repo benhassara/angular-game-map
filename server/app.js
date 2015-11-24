@@ -36,8 +36,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client/')));
 app.use(require('express-session')({ resave: false, saveUninitialized: false, secret: 'a secret' }));
 app.use(steam.middleware({
-    realm: 'http://localhost:3000/',
-    verify: 'http://localhost:3000/verify',
+    realm: process.env.HEROKU_URL || 'http://localhost:3000/',
+    verify: process.env.HEROKU_URL_VERIFY || 'http://localhost:3000/verify',
     apiKey: apiKey.STEAM}
 ));
 
