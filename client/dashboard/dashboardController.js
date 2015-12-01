@@ -46,7 +46,6 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
         }).then(function(result) {
           if (result.data.success) {
             $scope.user = result.data.user;
-            console.log($scope.user);
           }
         });
       }

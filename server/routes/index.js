@@ -3,7 +3,6 @@ var router = express.Router();
 var steam = require('steam-login');
 var User = require('../models/user');
 var Game = require('../models/game');
-// var keys = require('../auth/_openidconfig.js');
 var keys = {
   STEAM: process.env.STEAM,
   GIANT_BOMB: process.env.GIANT_BOMB
@@ -202,13 +201,9 @@ module.exports = router;
  * assumes these are games already in the Games collection,
  * and therefore have ObjectIds. */
 function mapGamesForUser(gamesArray) {
-  console.log('mapFunc sanity!');
-  var ids = gamesArray.map(function(game) {
-    console.log(game);
+  return gamesArray.map(function(game) {
     return game._id;
   });
-  console.log(ids);
-  return ids;
 }
 
 /** Maps the incoming array to the Game schema. */
