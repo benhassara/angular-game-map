@@ -10,7 +10,6 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
   mongoFactory.getUser(steamid)
   .then(function(data) {
     $scope.user = data.data;
-    console.log($scope.user);
     steamFactory.getSteamList($scope.user.steamid)
     .then(function(result) {
       var steamList = result.data.gameList;
@@ -19,10 +18,10 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
       if (steamList.length !== userGames.length) {
         getSteamGames()
         .then(function(result) {
-          console.log('result[22]: ', result);
-          if (result) {
-            saveGamesToMongo();
-          }
+          return mongoFactory.saveGames(mapToMongo());
+        })
+        .then(function(result) {
+          console.log(result.data);
         });
       }
     });
@@ -32,7 +31,6 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
     return $q(function(resolve, reject) {
       steamFactory.getGames(steamid)
       .then(function(data) {
-        console.log(data);
         $scope.games = data.data;
         var giantBombSet = FuzzySet();
         var giantBombNames = $scope.games.gb.map(function(game) { return game.name; });
@@ -48,7 +46,6 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
         }
 
         $scope.games.gb = $scope.gbArray;
-        console.log($scope.games);
         $scope.loading = false;
         resolve(true);
       });
@@ -76,7 +73,7 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
     return names[steamName];
   }
 
-  function saveGamesToMongo() {
+  function mapToMongo() {
     var games = [];
     for (var i = 0; i < $scope.games.steam.length; i++) {
       games[i] = {
@@ -84,7 +81,6 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
         gb: $scope.games.gb[i]
       };
     }
-    console.log(games);
-    mongoFactory.saveGames(games);
+    return games;
   }
 }]);

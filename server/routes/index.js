@@ -91,6 +91,7 @@ router.get('/games/:id', function(req, res, next) {
     async.concat(names, function(name, callback) {
       var searchQuery = name;
       var gbSearchUrl = 'http://www.giantbomb.com/api/search/?api_key=' + keys.GIANT_BOMB + '&resources=game&format=json&query=' + searchQuery + '&field_list=' + gbFields;
+      // use either Giant Bomb search endpoint or direct game endpoint
       var gbUrl = mustHandle(name) ? getGameDirectly(name, gbFields) : gbSearchUrl;
       // inner request to Giant Bomb API to fetch data on each game
       request(gbUrl, function(err, res, bdy) {
@@ -122,25 +123,37 @@ router.get('/game/:appid/:steamid/achievements', function(req, res, next) {
 /* Iterate over an array of games, add to Games collection if new */
 router.post('/games', function (req, res, next) {
   var games = mapGamesForMongo(req.body);
-  var saved = [];
+  // var saved = [];
 
   // add to the Games collection
-  async.forEachOf(games, function(game, index, callback) {
-    var query = game.steam.appid;
+  async.concat(games, function(game, callback) {
     new Game(game).saveQ()
-    .then(function() {
-      saved.push(game.steam.name);
-      if (index === games.length -1) {
-        res.json({'numSaved': saved.length, 'saved': saved});
+    .then(function(result) {
+      if (result[0].steam.appid === game.steam.appid.toString()) {
+        callback(null, result[0]);
       }
     })
     .catch(function(err) {
-      console.log('Item already in database.');
-      if (index === games.length -1) {
-        res.json({'numSaved': saved.length, 'saved': saved});
+      /* error code 11000 means that there's already a Game in 
+       * the database with the same appid */
+      if (err.code === 11000) {
+        console.log('Item is already in the database.');
+        callback(null, null);
+      }
+      else {
+        callback(err);
       }
     })
     .done();
+  }, function(err, games) {
+    if (err) { res.json({error: err}); }
+    /* filter out any null values that may occur due to
+     * attempting to save a game that already exists */
+    var filteredGames = games.filter(function(game) { return game !== null; });
+    res.json({
+      numSaved: filteredGames.length,
+      games: filteredGames
+    });
   });
 });
 
@@ -149,11 +162,15 @@ router.post('/user/games/:steamid', function(req, res, next) {
   var games = {'games': mapGamesForUser(req.body)};
   // console.log(games);
   var userQuery = {steamid: req.params.steamid};
+  var options = {
+    upsert: true,
+    new: true
+  };
 
-  User.findOneAndUpdateQ(userQuery, games, {upsert: true})
+  User.findOneAndUpdateQ(userQuery, games, options)
   .then(function(result) {
-    // console.log('result:');
-    // console.log(result);
+    console.log('result:');
+    console.log(result);
     res.json({message: 'User games updated successfully!'});
   })
   .catch(function(err) {
