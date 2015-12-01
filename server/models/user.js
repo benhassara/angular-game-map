@@ -12,7 +12,7 @@ var User = new Schema({
   },
   games: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Game'
+    ref: 'games'
   }]
 });
 

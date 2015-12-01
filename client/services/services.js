@@ -22,8 +22,7 @@ angular.module("gameApp")
   /** Update a user's game list */
   obj.updateUserGames = function(id, games) {
     var endpoint = '/user/games/' + id;
-    var jsonGames = JSON.stringify(games);
-    return $http.post(endpoint, jsonGames);
+    return $http.post(endpoint, JSON.stringify(games));
 
   };
 

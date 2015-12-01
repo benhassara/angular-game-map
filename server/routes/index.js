@@ -38,7 +38,9 @@ router.get('/logout', steam.enforceLogin('/'), function(req, res) {
 //get single user from db
 router.get('/user/:id', function(req, res, next) {
   var query = User.where({steamid: req.params.id});
-  query.findOneQ()
+  query.findOne()
+  .populate('games')
+  .execQ()
   .then(function(result) {res.json(result);})
   .catch(function(err) {res.send(err);})
   .done();
@@ -134,7 +136,7 @@ router.post('/games', function (req, res, next) {
       }
     })
     .catch(function(err) {
-      /* error code 11000 means that there's already a Game in 
+      /* error code 11000 means that there's already a Game in
        * the database with the same appid */
       if (err.code === 11000) {
         console.log('Item is already in the database.');
@@ -160,7 +162,6 @@ router.post('/games', function (req, res, next) {
 /** Update a User's list of games in the DB */
 router.post('/user/games/:steamid', function(req, res, next) {
   var games = {'games': mapGamesForUser(req.body)};
-  // console.log(games);
   var userQuery = {steamid: req.params.steamid};
   var options = {
     upsert: true,
@@ -169,13 +170,16 @@ router.post('/user/games/:steamid', function(req, res, next) {
 
   User.findOneAndUpdateQ(userQuery, games, options)
   .then(function(result) {
-    console.log('result:');
-    console.log(result);
-    res.json({message: 'User games updated successfully!'});
+    return result.populateQ('games');
+  })
+  .then(function(populatedUser) {
+    res.json({
+      message: 'User games updated successfully!',
+      success: true,
+      user: populatedUser
+    });
   })
   .catch(function(err) {
-    // console.log('err:');
-    // console.log(err);
     res.json(err);
   })
   .done();
@@ -197,7 +201,8 @@ module.exports = router;
 /*** Helpers ***/
 
 /** Maps incoming array to an array of their ObjectIds.
- * assumes these are games already in the Games collection */
+ * assumes these are games already in the Games collection,
+ * and therefore have ObjectIds. */
 function mapGamesForUser(gamesArray) {
   console.log('mapFunc sanity!');
   var ids = gamesArray.map(function(game) {

@@ -10,10 +10,17 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
   mongoFactory.getUser(steamid)
   .then(function(data) {
     $scope.user = data.data;
+    // deal with possible null values in user.games array
+    if ($scope.user.games && $scope.user.games.length > 0) {
+      $scope.user.games = $scope.user.games.filter(function(game) {
+        return game !== null;
+      });
+    }
+
     steamFactory.getSteamList($scope.user.steamid)
     .then(function(result) {
       var steamList = result.data.gameList;
-      var userGames = $scope.user.games.filter(function(game) { return game !== null; });
+      var userGames = $scope.user.games;
 
       if (steamList.length !== userGames.length) {
         getSteamGames()
@@ -21,7 +28,26 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
           return mongoFactory.saveGames(mapToMongo());
         })
         .then(function(result) {
-          console.log(result.data);
+          var gamesForUser = result.data.games;
+
+          // check for games already added to the user
+          if ($scope.user.games && $scope.user.games.length > 0) {
+            $scope.user.games.forEach(function(userGame) {
+              // if the userGame _id matches none of the _ids in gamesForUser
+              var match = gamesForUser.every(function(newGame) {
+                return userGame._id !== newGame.__id;
+              });
+              // if there's no match, add it to gamesForUser
+              if (!match) { gamesForUser.push(userGame); }
+            });
+          }
+
+          return mongoFactory.updateUserGames($scope.user.steamid, gamesForUser);
+        }).then(function(result) {
+          if (result.data.success) {
+            $scope.user = result.data.user;
+            console.log($scope.user);
+          }
         });
       }
     });
