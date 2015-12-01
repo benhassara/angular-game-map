@@ -67,13 +67,11 @@ router.get('/user/games/:id', function(req, res, next) {
   .populate('games')
   .execQ()
   .then(function(user) {
-    console.log(user);
-    res.json(user);
+    res.json(user.games);
   })
   .catch(function(err) {
-    console.log(err);
     res.json({
-      message: 'Error encountered while looking for User games.',
+      message: 'Error encountered while looking for this user\'s games.',
       error: err
     });
   });
