@@ -1,16 +1,16 @@
 <h3>Search by Game Name:</h3>
-<input type="text" style="width:500px"class="form-control" ng-model="search.name">
+<input type="text" style="width:500px"class="form-control" ng-model="search.steam.name">
 
-<div ng-repeat="game in games.steam | filter:search">
+<div ng-repeat="game in games | filter:search">
   <div id="library">
       <div class="library-item">
         <div class="primary">
-          <img check-image  class="game-tile" ng-src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.appid}}/header.jpg"
-          err-SRC="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/{{game.appid}}/{{game.img_logo_url}}.jpg">
+          <img check-image  class="game-tile" ng-src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.steam.appid}}/header.jpg"
+          err-SRC="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/{{game.steam.appid}}/{{game.steam.img_logo_url}}.jpg">
         </div>
         <div class="secondary">
-          <h2><a href="/#/dashboard/{{user.steamid}}/game/{{game.appid}}">{{ game.name }}</a></h2>
-          <p>{{ gbArray[$index].deck }} </p>
+          <h2><a href="/#/dashboard/{{user.steamid}}/game/{{game.steam.appid}}">{{ game.steam.name }}</a></h2>
+          <p>{{ game.gb.deck }} </p>
         </div>
     </div>
   </div>

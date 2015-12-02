@@ -11,6 +11,7 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
   .then(function(data) {
     $scope.user = data.data;
     // deal with possible null values in user.games array
+    // TODO: Implement the else for this.
     if ($scope.user.games && $scope.user.games.length > 0) {
       $scope.user.games = $scope.user.games.filter(function(game) {
         return game !== null;
@@ -25,7 +26,11 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
       if (steamList.length !== userGames.length) {
         getSteamGames()
         .then(function(result) {
-          return mongoFactory.saveGames(mapToMongo());
+          console.log(result);
+          console.log(mapToMongo(result));
+          $scope.games = mapToMongo(result);
+          $scope.loading = false;
+          return mongoFactory.saveGames(mapToMongo(result));
         })
         .then(function(result) {
           var gamesForUser = result.data.games;
@@ -33,7 +38,7 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
           // check for games already added to the user
           if ($scope.user.games && $scope.user.games.length > 0) {
             $scope.user.games.forEach(function(userGame) {
-              // if the userGame _id matches none of the _ids in gamesForUser
+              // if the userGame._id matches none of the _ids in gamesForUser
               var match = gamesForUser.every(function(newGame) {
                 return userGame._id !== newGame.__id;
               });
@@ -43,11 +48,15 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
           }
 
           return mongoFactory.updateUserGames($scope.user.steamid, gamesForUser);
-        }).then(function(result) {
+        })
+        .then(function(result) {
           if (result.data.success) {
             $scope.user = result.data.user;
           }
         });
+      }
+      else {
+
       }
     });
   });
@@ -56,23 +65,23 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
     return $q(function(resolve, reject) {
       steamFactory.getGames(steamid)
       .then(function(data) {
-        $scope.games = data.data;
+        var apiGames = data.data;
         var giantBombSet = FuzzySet();
-        var giantBombNames = $scope.games.gb.map(function(game) { return game.name; });
+        var giantBombNames = apiGames.gb.map(function(game) { return game.name; });
         giantBombNames.forEach(function(name) { giantBombSet.add(name); });
 
-        $scope.gbArray = [];
-        for (var i = 0; i < $scope.games.steam.length; i++) {
-          var steamName = $scope.games.steam[i].name;
+        var gbArray = [];
+        for (var i = 0; i < apiGames.steam.length; i++) {
+          var steamName = apiGames.steam[i].name;
           var queryWith = mustHandle(steamName) ? steamToGb(steamName) : steamName;
           var query = giantBombSet.get(queryWith);
           var gbIndex = giantBombNames.indexOf(query[0][1]);
-          $scope.gbArray[i] = $scope.games.gb[gbIndex];
+          gbArray[i] = apiGames.gb[gbIndex];
         }
 
-        $scope.games.gb = $scope.gbArray;
-        $scope.loading = false;
-        resolve(true);
+        apiGames.gb = gbArray;
+        // $scope.loading = false;
+        resolve(apiGames);
       });
     });
   }
@@ -98,12 +107,12 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
     return names[steamName];
   }
 
-  function mapToMongo() {
+  function mapToMongo(gameObj) {
     var games = [];
-    for (var i = 0; i < $scope.games.steam.length; i++) {
+    for (var i = 0; i < gameObj.steam.length; i++) {
       games[i] = {
-        steam: $scope.games.steam[i],
-        gb: $scope.games.gb[i]
+        steam: gameObj.steam[i],
+        gb: gameObj.gb[i]
       };
     }
     return games;
