@@ -222,7 +222,8 @@ function mapGamesForMongo(gamesArray) {
       },
       steam: {
         appid: game.steam.appid,
-        name: game.steam.name
+        name: game.steam.name,
+        img_logo_url: game.steam.img_logo_url
       }
     };
   });

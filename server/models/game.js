@@ -11,7 +11,8 @@ var Game = new Schema({
   },
   steam: {
     appid: {type: String, unique: true},
-    name: String
+    name: String,
+    img_logo_url: String
   }
 });
 

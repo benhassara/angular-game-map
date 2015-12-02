@@ -26,8 +26,6 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
       if (steamList.length !== userGames.length) {
         getSteamGames()
         .then(function(result) {
-          console.log(result);
-          console.log(mapToMongo(result));
           $scope.games = mapToMongo(result);
           $scope.loading = false;
           return mongoFactory.saveGames(mapToMongo(result));
@@ -56,7 +54,8 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
         });
       }
       else {
-
+        $scope.games = $scope.user.games;
+        $scope.loading = false;
       }
     });
   });
@@ -80,7 +79,6 @@ function($scope, $q, $stateParams, mongoFactory, steamFactory) {
         }
 
         apiGames.gb = gbArray;
-        // $scope.loading = false;
         resolve(apiGames);
       });
     });
