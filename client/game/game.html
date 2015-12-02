@@ -1,7 +1,7 @@
 <h3>Search by Game Name:</h3>
 <input type="text" style="width:500px"class="form-control" ng-model="search.steam.name">
 
-<div ng-repeat="game in games | filter:search">
+<div ng-repeat="game in games | filter:search | orderBy:'steam.name'">
   <div id="library">
       <div class="library-item">
         <div class="primary">
