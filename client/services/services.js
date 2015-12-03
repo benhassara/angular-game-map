@@ -3,14 +3,27 @@ angular.module("gameApp")
 
   var obj = {};
 
-  //function to get ALL users form mongodb
+  //function to get a users from mongodb
   obj.getUser = function(id) {
     return $http.get('/user/' + id);
   };
 
-  /** Save games to database */
+  /** Save games to games collection */
   obj.saveGames = function(games) {
-    return $http.post('/games');
+    return $http.post('/games', JSON.stringify(games));
+  };
+
+  /** Get a single game from collection */
+  obj.getGame = function(game) {
+    var steamAppId = game.appid;
+    return $http.get('/game/' + steamAppId);
+  };
+
+  /** Update a user's game list */
+  obj.updateUserGames = function(id, games) {
+    var endpoint = '/user/games/' + id;
+    return $http.post(endpoint, JSON.stringify(games));
+
   };
 
   return obj;
@@ -21,13 +34,13 @@ angular.module("gameApp")
 
   var obj = {};
 
-  //function to get ALL users form mongodb
+  //function to get ALL users from mongodb
   obj.getGames = function(id) {
     return $http.get('/games/' + id);
   };
 
-  obj.getSteamList = function(user) {
-    return $http.get('/steamlist/' + user.steamid);
+  obj.getSteamList = function(id) {
+    return $http.get('/steamlist/' + id);
   };
 
   obj.getGame = function(id) {

@@ -11,13 +11,8 @@ var Game = new Schema({
   },
   steam: {
     appid: {type: String, unique: true},
-    img_logo_url: String,
     name: String,
-    playtime: Number,
-    achievements: [{
-      apiname: String,
-      achieved: Number
-    }]
+    img_logo_url: String
   }
 });
 
